@@ -4,7 +4,7 @@ import NavBar from './NavBar';
 const Hero = () => {
   return (
     <>
-      <section className='hero bg-white h-screen py-20 '>
+      <section className='hero bg-white h-screen py-10 md:py-15 '>
       
       <div className=' flex  flex-col gap-2 mt-0 space-y-2 p-4 lg:gap-5 lg:mt-6 md:p-4 md:mx-8 mx-4    '>
         <div><h1 className='text-4xl font-semibold md:text-7xl   text-black  w-[50%]'>Explore your <span className='text-red-600'>favourite</span> movies here...</h1></div>
