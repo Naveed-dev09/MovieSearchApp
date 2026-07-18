@@ -14,9 +14,14 @@ const Hero = () => {
         
         <div><button className='py-1 px-2 lg:py-2 lg:px-4 lg:text-sm font-semibold font-sans mb-4 shadow-sm  text-xs rounded-sm border-l-2 border-r-2 border-red-500'>Explore Now</button> </div>
         
+        
 
       </div>
+      
       </section>
+       <h2 className='text-black md:text-xl mt-5 bg-white shadow-sm p-2 rounded-sm
+          border-l border-red-500 md:w-[50%] w-[70%] md:mx-9 mx-4 text-sm mb-3'>Here are some <span className='text-red-600 font-semibold'>featured</span> movies...</h2>
+      
     </>
   )
 }
