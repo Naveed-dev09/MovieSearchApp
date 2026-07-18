@@ -7,10 +7,11 @@ function App() {
 
   return (
     <div className="App min-h-screen p-0 m-0 ">
+      <NavBar/>
       <Hero/>
       
-      <div className="cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4
-                     shadow-sm bg-gray-100 mt-4 ">
+      <div className="cards grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 
+                     shadow-sm bg-white mt-4 ">
         <Card />
         <Card />
         <Card />
