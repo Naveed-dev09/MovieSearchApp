@@ -3,7 +3,9 @@ import React from 'react'
 const NavBar = () => {
   return (
     <nav className="bg-white border-b-2 border-red-500 text-white flex flex-col sticky top-0
-          md:flex-row md:items-center md:justify-between gap-4  z-10 px-4 py-2 md:py-4 shadow-sm  ">
+          md:flex-row md:items-center md:justify-between gap-4  z-10 px-4 py-2
+           md:py-4 shadow-smtransition-all duration-300 backdrop-blur-lg
+  ">
 
         <div className ="flex items-center justify-between gap-2 ">
             <h1 className="text-lg sm:text-2xl md:text-3xl lg:text-3xl 
