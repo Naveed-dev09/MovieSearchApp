@@ -12,7 +12,7 @@ function App() {
       
       
       <div className="cards grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 px-4
-                     shadow-sm bg-white mt-2 md:gap-0 lg:gap-0 sm:gap-0 ">
+                     shadow-sm bg-white  md:gap-0 lg:gap-0 sm:gap-0 ">
         <Card />
         <Card />
         <Card />
