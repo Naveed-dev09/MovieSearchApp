@@ -17,11 +17,11 @@ const [movies, setMovies] = useState([]);
     loadMovies();
   }, []);
 
-  console.log(movies)
+  
   return (
     <>
     {movies.map((movie) => (
-      <motion.div
+      <motion.div key={movie.id}
   initial={{ opacity: 0, y: 50 }}
   whileInView={{ opacity: 1, y: 0 }}
   transition={{ duration: 0.6 }}

@@ -10,4 +10,7 @@ export async function getPopularMovies() {
   return data.results;
 }
 
+
+
+
 export default getPopularMovies
