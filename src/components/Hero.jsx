@@ -4,11 +4,11 @@ import NavBar from './NavBar';
 import {  useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 const apiKey = import.meta.env.VITE_TMDB_API_KEY;
+import { Pagination } from "swiper/modules";
+
+import "swiper/css/pagination";
 import { Autoplay } from "swiper/modules";
 
-import { Navigation } from "swiper/modules";
-
-import "swiper/css/navigation";
 
 
 
@@ -45,42 +45,36 @@ useEffect(() => {
 
   return (
     <>
-      <section className='hero bg-white min-h-[80vh] flex items-center   '>
+      <section className='hero bg-white min-h-[67vh] flex-col mt-7 mx-6  '>
       
-      <div className=' flex  flex-col gap-8 mt-0   lg:gap-5 lg:mt-6 md:p-4 md:mx-8 mx-4    '>
-        <div><h1 className='text-4xl font-semibold md:text-7xl  
+      <div className=' flex  flex-col gap-7 mt-10   lg:gap-5 lg:mt-6 md:p-4      '>
+        <div className='py-1' ><h1 className='text-5xl font-semibold md:text-4xl line-clamp-5 
           text-black  w-[80%] md:w-3/4 lg:w-1/2 opacity-0  animate-[fadeUp_0.8s_ease-out_forwards] '
           >Explore your <span className='text-red-600'>favourite</span> movies here...
             </h1>
         </div>
         
-        <div><p className='font-normal md:text-xl
-         animate-[fadeUp_0.8s_ease-out_0.2s_forwards] lg-text-xl lg:line-clamp-2 text-sm text-gray-400  
+        <div><p className='font-normal md:text-xl text-sm
+         animate-[fadeUp_0.8s_ease-out_0.2s_forwards] lg-text-xl lg:line-clamp-2  text-gray-400  
            w-[70%]'>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-           Accusantium inventore illo consectetur aperiam neque!
+        Find the perfect movie for every mood. Explore trending titles, top-rated films,
+        and upcoming releases with ease.
             </p>
         </div>
-        
-        <div>
-         
-        </div>
-    <div className="w-full max-w-[93vw] mx-auto ">
-  <Swiper
-    modules={[Autoplay]}
+      </div>
+      <div className="w-full max-w-[100vw]   mt-5  ">
+        <h2   className='text-xl p-2 mt-4 bg-white shadow-sm font-sans mb-3 md:w-[35%] w-[40%] '><span className='text-red-600'>Trending</span> Now</h2>
+  <Swiper className='h-70'
+    modules={[Autoplay, Pagination ]}
     slidesPerView={4}
     spaceBetween={20}
-     autoplay={{
-    delay: 3000,
+     loop={true}
+  autoplay={{
+    delay: 2000,
     disableOnInteraction: false,
   }}
-  loop={true}
-  
-  
-  
-  modules={[Navigation]}
-  navigation={true}
-
+  speed={800}
+  pagination={{ clickable: true }}
 
      breakpoints={{
     320: {
@@ -101,28 +95,22 @@ useEffect(() => {
 
   
     {movie.map((mov) => (
-      <SwiperSlide key={mov.id}>
-        <div className='flex flex-col items-center justify-center cursor-pointer'>
+      <SwiperSlide key={mov.id}   >
+        <div className='flex flex-col  items-center justify-center cursor-pointer  '>
         <img
-          className="w-full h-64 object-cover rounded-xl"
+          className="w-full h-64 object-cover rounded-xl "
           src={`https://image.tmdb.org/t/p/w500${mov.poster_path}`}
           alt={mov.title}
         />
-        <h3 className='font-sans text-sm font-semibold self-center'>{mov.title}</h3>
+        {/* <h5 className='font-sans text-xs  self-center'>{mov.title}</h5> */}
         </div>
       </SwiperSlide>
     ))}
   </Swiper>
 </div>
-        
-
-      </div>
       
       </section>
-       <h2 className='text-black md:text-xl mt-5 bg-white shadow-sm p-2 rounded-sm
-          border-l border-red-500 md:w-[50%] 
-          w-[70%] md:mx-9 mx-4 text-sm mb-3'>Here are some 
-          <span className='text-red-600 font-semibold'>featured</span> movies...</h2>
+      
       
     </>
   )

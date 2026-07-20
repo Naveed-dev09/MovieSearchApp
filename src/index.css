@@ -11,3 +11,12 @@
     transform: translateY(0);
   }
 }
+
+.movie-swiper {
+  padding-bottom: 40px;
+}
+
+.swiper-pagination {
+  bottom: -5px !important;
+  
+}
