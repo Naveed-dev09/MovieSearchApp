@@ -3,10 +3,12 @@ import poster from '../assets/images/poster.jpg'
 import { useEffect, useState } from "react";
 import { getPopularMovies } from "../api.js";
 import { motion } from "framer-motion";
+const apiKey = import.meta.env.VITE_TMDB_API_KEY;
 
 const Card = () => {
 
 const [movies, setMovies] = useState([]);
+const [page, setPage] = useState(2)
 
   useEffect(() => {
     async function loadMovies() {
@@ -17,11 +19,25 @@ const [movies, setMovies] = useState([]);
     loadMovies();
   }, []);
 
-  console.log(movies)
+  async function loadMovies() {
+
+    setPage((prev)=> prev+1)
+    
+     const res = await fetch(
+      `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&page=${page}`
+     );
+
+     const newData = await res.json();
+     console.log(newData.results)
+     setMovies((prevMovies) => [...prevMovies, ...newData.results]);
+  }
+
+  
   return (
+    <>
       <section className='mt-2  '>
          
-        <h2   className='text-xl p-3 mx-4 bg-white shadow-sm font-sans mb-3 md:w-[35%] w-[80%] '> Here are some<span className='text-red-600'>featured</span> movies</h2>
+        <h2   className='text-xl p-3 mx-4 bg-white shadow-sm font-sans mb-3 md:w-[35%] w-[95%] '> Here are some<span className='text-red-600'>featured</span> movies</h2>
         
      <div className="cards grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 px-4
                      shadow-sm bg-white  md:gap-2 lg:gap-2 sm:gap-2 md:mt-4 ">
@@ -35,7 +51,7 @@ const [movies, setMovies] = useState([]);
                    viewport={{ once: true }}
 >
   <div 
-       key={movie.title} className="bg-white rounded-lg shadow-md p-2 
+       key={movie.id} className="bg-white rounded-lg shadow-md p-2 
        w-auto md:p-4 md:m-4 md:w-64 flex flex-col h-full
         transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
 
@@ -69,14 +85,19 @@ const [movies, setMovies] = useState([]);
   </div>
   
     </motion.div>
-    
+     
     ))}
-  
+       
     </>
-        
-      </div>
-    </section>
    
+       
+      </div>
+    
+    </section>
+    <div className='mt-7  bg-gray-400 shadow-sm p-2  flex items-center justify-center self-center'>
+       <button onClick={ loadMovies} className='text-xl text-white '>Load More</button>
+    </div>
+    </>
   )
 }
 

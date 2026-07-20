@@ -16,7 +16,10 @@
   padding-bottom: 40px;
 }
 
-.swiper-pagination {
-  bottom: -5px !important;
-  
+/* Hide arrows on screens smaller than 768px */
+@media (max-width: 767px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none;
+  }
 }
