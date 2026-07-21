@@ -1,14 +1,26 @@
 import React from 'react'
 import poster from '../assets/images/poster.jpg'
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getPopularMovies } from "../api.js";
 import { motion } from "framer-motion";
+
 const apiKey = import.meta.env.VITE_TMDB_API_KEY;
 
-const Card = () => {
+
+const Card = ({inputText}) => {
+
+  const cardsRef = useRef(inputText);
+ useEffect(() => {
+  if (inputText.trim() !== "") {
+    cardsRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }
+}, [inputText]);
+
 
 const [movies, setMovies] = useState([]);
-const [page, setPage] = useState(2)
+const [page, setPage] = useState(1)
 
   useEffect(() => {
     async function loadMovies() {
@@ -18,19 +30,28 @@ const [page, setPage] = useState(2)
 
     loadMovies();
   }, []);
-
-
+  
 
   async function loadMovies() {
 
-    setPage((prev)=> prev+1)
+    const nextPage = page + 1;
     
      const res = await fetch(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&page=${page}`
+      `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&page=${nextPage}`
      );
-
      const newData = await res.json();
-     setMovies((prevMovies) => [...prevMovies, ...newData.results]);
+
+    setMovies((prevMovies) => {
+        const existingIds = new Set(prevMovies.map(movie => movie.id));
+
+        const uniqueMovies = newData.results.filter(
+        movie => !existingIds.has(movie.id)
+  );
+
+  return [...prevMovies, ...uniqueMovies];
+});
+
+     setPage(nextPage)
   }
     
 const [video, setVideo]= useState([])
@@ -43,22 +64,26 @@ async function playTrailer(movieId) {
   )
 
   const trailerData = await res.json();
-
 const trailer = trailerData.results.find(
   video=> video.site === "YouTube" && video.type=="Trailer"
 );
-
 setVideo(trailer)
 setTrailer(trailer)
 
 
 }
+console.log(inputText)
+const filteredMovies = movies.filter((movie) =>
+  movie.title
+    .toLowerCase()
+    .includes(inputText.trim().toLowerCase())
+);
 
 
   
   return (
     <>
-      <section className='mt-2  '>
+      <section ref={cardsRef} className='mt-2  '>
          
         <h2   className='text-xl p-3 mx-4 bg-white shadow-sm font-sans mb-3 md:w-[35%] w-[95%] '> Here are some<span className='text-red-600'>featured</span> movies</h2>
         
@@ -66,7 +91,13 @@ setTrailer(trailer)
                      shadow-sm bg-white  md:gap-2 lg:gap-2 sm:gap-2 md:mt-4 ">
       
          <>
-            {movies.map((movie) => (
+        
+            { filteredMovies.length===0? (
+  <h2 className="text-center text-2xl font-semibold text-gray-500 py-10">
+    No movies found
+  </h2>): 
+            
+            filteredMovies.map((movie) => (
                 <motion.div key={movie.id}
                    initial={{ opacity: 0, y: 50 }}
                    whileInView={{ opacity: 1, y: 0 }}
@@ -74,7 +105,7 @@ setTrailer(trailer)
                    viewport={{ once: true }}
 >
   <div 
-       key={movie.id} className="bg-white rounded-lg shadow-md p-2 
+        className="bg-white rounded-lg shadow-md p-2 
        w-auto md:p-4 md:m-4 md:w-64 flex flex-col h-full
         transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
 
@@ -115,14 +146,9 @@ setTrailer(trailer)
    
        
       </div>
-    
+
     </section>
-
-    <div className='mt-7  bg-gray-400 shadow-sm p-2  flex items-center justify-center self-center'>
-       <button onClick={ loadMovies} className='text-xl text-white '>Load More</button>
-    </div>
-
-    {trailer && (
+       {trailer && (
   <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
     <div className="relative w-[90%] max-w-4xl aspect-video bg-black rounded-lg">
       <button
@@ -142,7 +168,15 @@ setTrailer(trailer)
   </div>
 )}
 
+    <div className='mt-7  bg-gray-400 shadow-sm p-2  flex items-center justify-center self-center'>
+       <button onClick={ loadMovies} className='text-xl text-white '>Load More</button>
+    </div>
+
+    
+
     </>
+
+    
   )
 }
 

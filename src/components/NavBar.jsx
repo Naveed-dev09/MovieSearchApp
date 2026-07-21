@@ -1,6 +1,21 @@
 import React from 'react'
+import { useState } from 'react'
 
-const NavBar = () => {
+
+const NavBar = ({movies, setMovies,inputText,setInputText}) => {
+
+function handleInput(val){
+   setInputText(val)
+}
+
+
+
+
+
+
+
+
+
   return (
     <nav className="bg-white border-b-2 border-red-500 text-white flex flex-col sticky top-0
           md:flex-row md:items-center md:justify-between gap-2  z-10 px-4 py-2
@@ -16,7 +31,7 @@ const NavBar = () => {
         </div>
 
         <div className="search-bar">
-            <input className="focus:outline-none w-full h-9 mt-0
+            <input  onChange={(e)=> handleInput(e.target.value)} className="focus:outline-none w-full h-9 mt-0
              bg-white  text-gray-700 p-2 active:ring-1 active:ring-orange-500 focus:ring-1 focus:ring-orange-500
                 rounded-lg md:w-60 lg:w-80 sm:w-40 placeholder:text-sm md:placeholder:text-base lg:placeholder:text-md
                 shadow-sm border-l border-r border-red-500 transition-all duration-300 placeholder:text-black/40
@@ -26,7 +41,7 @@ const NavBar = () => {
           <button href="#" className="  transition-color duration-600 bg-white py-1 px-2 text-xs
           text-black rounded-sm font-semibold  shadow-sm lg:py-2 lg:px-3 hidden md:inline-block hover:border hover:border-red-500  hover:text-black
           border-l border-r border-red-500">
-            Favorites
+            Catogories
           </button>
         </div>
        
