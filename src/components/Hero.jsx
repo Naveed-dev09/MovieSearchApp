@@ -36,13 +36,21 @@ getTrendingMovies(); // <-- You forgot this
   
 }, []);
 
+async function playTrailer() {
+  const res = await (
+     `https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=${apiKey}`
+  );
+
+  const data = res.json();
+}
+
   return (
     <>
    <section className='hero bg-white min-h-[67vh] flex-col mt-7 mx-6  '>
       
       <div className=' flex  flex-col gap-7 mt-10   lg:gap-5 lg:mt-6 md:p-4      '>
         <div className='py-1' >
-          <h1 className='text-5xl font-semibold md:text-4xl line-clamp-5 
+          <h1 className='text-4xl font-semibold md:text-4xl line-clamp-5 
           text-black  w-[80%] md:w-3/4 lg:w-1/2 opacity-0  animate-[fadeUp_0.8s_ease-out_forwards] '
           >Explore your <span className='text-red-600'>favourite</span> movies here...
          </h1>
