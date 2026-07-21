@@ -19,6 +19,8 @@ const [page, setPage] = useState(2)
     loadMovies();
   }, []);
 
+
+
   async function loadMovies() {
 
     setPage((prev)=> prev+1)
@@ -28,9 +30,30 @@ const [page, setPage] = useState(2)
      );
 
      const newData = await res.json();
-     console.log(newData.results)
      setMovies((prevMovies) => [...prevMovies, ...newData.results]);
   }
+    
+const [video, setVideo]= useState([])
+const [trailer, setTrailer] = useState(null);
+
+async function playTrailer(movieId) {
+   console.log("Clicked:", movieId);
+  const res = await fetch(
+     `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}`
+  )
+
+  const trailerData = await res.json();
+
+const trailer = trailerData.results.find(
+  video=> video.site === "YouTube" && video.type=="Trailer"
+);
+
+setVideo(trailer)
+setTrailer(trailer)
+
+
+}
+
 
   
   return (
@@ -75,7 +98,7 @@ const [page, setPage] = useState(2)
       <p className="text-gray-600 md:text-sm  text-xs mb-2 line-clamp-3 ">Overview: {movie.overview}
 
       </p>
-      <button 
+      <button  onClick={()=> playTrailer(movie.id)}
 
       className="bg-red-600 md:text-sm text-sm  mt-auto hover:bg-red-700 text-white font-semibold py-1 px-2 md:py-2.5
       md:px-3 rounded-lg transition-colors duration-300">Watch Trailer
@@ -94,9 +117,31 @@ const [page, setPage] = useState(2)
       </div>
     
     </section>
+
     <div className='mt-7  bg-gray-400 shadow-sm p-2  flex items-center justify-center self-center'>
        <button onClick={ loadMovies} className='text-xl text-white '>Load More</button>
     </div>
+
+    {trailer && (
+  <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+    <div className="relative w-[90%] max-w-4xl aspect-video bg-black rounded-lg">
+      <button
+        onClick={() => setTrailer(null)}
+        className="absolute -top-10 right-0 text-white text-3xl"
+      >
+        ✕
+      </button>
+
+      <iframe
+        className="w-full h-full rounded-lg"
+        src={`https://www.youtube.com/embed/${trailer.key}`}
+        title="Movie Trailer"
+        allowFullScreen
+      />
+    </div>
+  </div>
+)}
+
     </>
   )
 }

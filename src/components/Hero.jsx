@@ -35,14 +35,23 @@ useEffect(() => {
 getTrendingMovies(); // <-- You forgot this
   
 }, []);
-
-async function playTrailer() {
-  const res = await (
-     `https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=${apiKey}`
+const [trailer ,setTrailer]= useState([])
+const [video , setVideo] = useState(null)
+async function playTrailer(movieId) {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}`
   );
 
-  const data = res.json();
+  const data = await res.json();
+  const trailerData = data.results.find(
+  video=> video.site === "YouTube" && video.type=="Trailer"
+);
+
+setTrailer(trailerData)
+setVideo(trailerData)
+
 }
+
 
   return (
     <>
@@ -101,11 +110,9 @@ async function playTrailer() {
             }}
   >
   
-
-  
           {movie.map((mov) => (
               <SwiperSlide key={mov.id}   >
-                 <div className='flex flex-col  items-center justify-center cursor-pointer  '>
+                 <div onClick={()=> playTrailer(mov.id)} className='flex flex-col  items-center justify-center cursor-pointer  '>
                      <img
                           className="w-full h-64 object-cover rounded-xl "
                           src={`https://image.tmdb.org/t/p/w500${mov.poster_path}`}
@@ -119,7 +126,25 @@ async function playTrailer() {
    </Swiper>
 </div>
  </section>
-      
+      {video && (
+  <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+    <div className="relative w-[90%] max-w-4xl aspect-video bg-black rounded-lg">
+      <button
+        onClick={() => setVideo(null)}
+        className="absolute -top-10 right-0 text-white text-3xl"
+      >
+        ✕
+      </button>
+
+      <iframe
+        className="w-full h-full rounded-lg"
+        src={`https://www.youtube.com/embed/${trailer.key}`}
+        title="Movie Trailer"
+        allowFullScreen
+      />
+    </div>
+  </div>
+)}
       
     </>
   )
